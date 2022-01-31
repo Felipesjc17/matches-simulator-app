@@ -17,6 +17,7 @@ import com.me.simulator.databinding.ActivityMainBinding;
 import com.me.simulator.domain.Match;
 import com.me.simulator.ui.adapter.MatchesAdapter;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private MatchesAPI matchesApi;
-    private MatchesAdapter matchesAdapter;
+    private MatchesAdapter matchesAdapter = new MatchesAdapter((Collections.emptyList())); //adapter vazio
 
 
     public void setMatchesAdapter(MatchesAdapter matchesAdapter) {
@@ -66,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
 
         //setando layout simples aplicando o contexto
         binding.rvMatches.setLayoutManager(new LinearLayoutManager(this));
+
+        //Atribuindo o adapter vazio para rv, para swipe funcionar mesmo antes da API ser carregada
+        binding.rvMatches.setAdapter(matchesAdapter);
 
         findMatchesFromApi();
     }
