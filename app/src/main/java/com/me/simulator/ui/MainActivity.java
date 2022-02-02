@@ -3,12 +3,11 @@ package com.me.simulator.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
-import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.me.simulator.R;
@@ -33,10 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private MatchesAPI matchesApi;
     private MatchesAdapter matchesAdapter = new MatchesAdapter((Collections.emptyList())); //adapter vazio
 
-
-    public void setMatchesAdapter(MatchesAdapter matchesAdapter) {
-        this.matchesAdapter = matchesAdapter;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+            throw new RuntimeException("Teste Crashlytics");
         });
 
     }
@@ -103,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         binding.srlMatches.setRefreshing(true);//começo da chamada
         matchesApi.getMatches().enqueue(new Callback<List<Match>>() {
             @Override
-            public void onResponse(Call<List<Match>> call, Response<List<Match>> response) {
+            public void onResponse(@NonNull Call<List<Match>> call, @NonNull Response<List<Match>> response) {
                 if(response.isSuccessful()) {
                     List<Match> matches = response.body();
                     //instanciando adapter passando lista de partidas carregadas
@@ -117,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Match>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Match>> call,  @NonNull Throwable t) {
                 showErrorMessage();
             }
         });
